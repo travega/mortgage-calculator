@@ -31,4 +31,5 @@ try:
 
   cur.execute(query)
   connection.close()
-except
+except Exception as e:
+  print("Error occurred: {}".format(e))
