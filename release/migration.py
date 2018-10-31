@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 import psycopg2
+import os
 
 db_parsed = urlparse(os.environ['DATABASE_URL'])
 user = db_parsed.username
