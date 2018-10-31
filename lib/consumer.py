@@ -2,6 +2,8 @@ from urllib.parse import urlparse
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import psycopg2
+import time
+import datetime
 import random
 import json
 import pika
@@ -45,7 +47,6 @@ def to_pg(payload):
         principal = payload['principal']
         interest = payload['interest']
         years = payload['years']
-        timestamp = payload['timestamp']
 
         sql = """
             insert into mortgage_calculator.load_enquiries(
@@ -57,7 +58,7 @@ def to_pg(payload):
                                                             timestamp
                                                         ) 
             values ('{}', '{}', '{}', '{}', '{}', '{}')
-                """.format(random.choice(usernames), principal, interest, years, "Website", timestamp)
+                """.format(random.choice(usernames), principal, interest, years, "Website", timestamp())
         
         cur.execute(sql)
         cur.execute('commit')
@@ -68,6 +69,12 @@ def to_pg(payload):
         print("Error occurred: {}".format(e))
         return False 
 
+    return True
+
+def timestamp():
+    t = time.time()
+    ts = datetime.datetime.fromtimestamp(t).strftime('%Y%m%d%H%M%S%f')
+    return ts
 
 # set up subscription on the queue
 channel.basic_consume(  callback,
