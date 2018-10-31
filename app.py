@@ -11,7 +11,7 @@ import os
 import pika
 
 server = Flask(__name__)
-# load_dotenv()
+load_dotenv()
 
 # Parse CLODUAMQP_URL (fallback to localhost)
 url_str = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
@@ -28,7 +28,7 @@ db = client.get_default_database()
 
 @server.route("/", methods=["GET"])
 def index():
-    return render_template("index.html", payments=None)
+    return render_template("index.html")
 
 @server.route("/calculate", methods=["POST"])
 def consumer():
@@ -37,10 +37,18 @@ def consumer():
     
     channel.basic_publish(exchange='', routing_key=os.environ['QUEUE_NAME'], body=data)
 
-    json_data = json.dumps(data)
+    # json_data = json.loads(data)
+
+    print (data)
+
+    print (json.loads(data))
     
-    calculator = MortgageCalculator(json_data["pricipal"], json_data["interest"], json_data["years"])
+    principal = data["principal"]
+    interest = data["interest"]
+    years = data["years"]
+    
+    calculator = MortgageCalculator(principal, interest, years)
     payments = calculator.payments()
 
-    return render_template("index.html", payments=payments)
+    return jsonify({ "payments": payments })
     
