@@ -124,3 +124,7 @@ div.menu {
     height: auto;
     background-color: #fff;
 }
+
+div.results {
+    text-align: center;
+}
