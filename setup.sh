@@ -1,8 +1,7 @@
 #! /bin/bash
 
-heroku create $1 --region=eu --team $2
-heroku addons:create heroku-postgresql:standard-0
-heroku addons:create mongolab:sandbox
-heroku addons:create coralogix:startup
-heroku addons:create cloudamqp:lemur
-heroku config -s > .env
+heroku addons:create heroku-postgresql:standard-0 --app $1
+heroku addons:create mongolab:sandbox --app $1
+heroku addons:create coralogix:startup --app $1
+heroku addons:create cloudamqp:lemur --app $1
+heroku config -s --app $1 > .env

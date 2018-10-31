@@ -9,13 +9,18 @@ This is a very simple mortgage calculator with some production readiness built i
 
 ### Scripted Deploy
 
-Run the `setup.sh` from the root of the project and pass it 2 parameters:
+First create and app in Heroku:
 
 ```bash
-./setup.sh param1 param2
+heroku create <appname>
 ```
 
-**param1**: The name of the app you want to create in Heroku
-**param2**: The name of the team that your app is deployed to.
+Then, run the `setup.sh` from the root of the project and pass it 2 parameters:
+
+```bash
+./setup.sh [appname]
+```
+
+**appname** (required): The name of the app you want to use in Heroku
 
 Note: the app is created by default in the **EU region**.%
