@@ -23,4 +23,4 @@ Then, run the `setup.sh` from the root of the project and pass it 2 parameters:
 
 **appname** (required): The name of the app you want to use in Heroku
 
-Note: the app is created by default in the **EU region**.%
+Note: the app is created by default in the **US region**.%
