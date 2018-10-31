@@ -32,6 +32,7 @@
     },
     "logo": "https://www.thedesignlove.com/wp-content/uploads/2016/09/home-logo-15.jpg",
     "addons": [
+        "heroku-postgresql:standard-0",
         "mongolab:sandbox",
         "coralogix:startup",
         "cloudamqp:lemur"
