@@ -1,3 +1,3 @@
 web: gunicorn app:server
-release: bash ./release/run.sh
-worker: python3 ./lib/consumer.py
+release: python ./release/migration.py
+worker: python ./lib/consumer.py
