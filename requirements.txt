@@ -7,9 +7,9 @@ cffi==1.11.5
 chardet==3.0.4
 click==6.7
 cryptography==2.3.1
-Django==2.0.4
-django-modelcluster==4.1
-django-taggit==0.22.2
+Django==2.1.2
+django-modelcluster==4.2
+django-taggit==0.23.0
 django-treebeard==4.3
 djangorestframework==3.8.2
 draftjs-exporter==2.1.2
@@ -43,12 +43,12 @@ pymongo==3.7.1
 python-dotenv==0.9.1
 pytz==2018.4
 redis==2.10.6
-requests==2.19.1
+requests==2.20.0
 six==1.11.0
 typed-ast==1.1.0
 Unidecode==0.4.21
 urllib3==1.23
-wagtail==2.1
+wagtail==2.3
 webencodings==0.5.1
 websockets==6.0
 Werkzeug==0.14.1
