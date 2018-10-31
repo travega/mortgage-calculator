@@ -34,7 +34,7 @@
     "addons": [
         "mongolab:sandbox",
         "coralogix:startup",
-        "rabbitamqp:lemur"
+        "cloudamqp:lemur"
     ],
     "buildpacks": [
         { "url": "heroku/python" }
