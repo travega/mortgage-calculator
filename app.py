@@ -37,15 +37,11 @@ def consumer():
     
     channel.basic_publish(exchange='', routing_key=os.environ['QUEUE_NAME'], body=data)
 
-    # json_data = json.loads(data)
-
-    print (data)
-
-    print (json.loads(data))
+    json_data = json.loads(data)
     
-    principal = data["principal"]
-    interest = data["interest"]
-    years = data["years"]
+    principal = json_data["principal"]
+    interest = json_data["interest"]
+    years = json_data["years"]
     
     calculator = MortgageCalculator(principal, interest, years)
     payments = calculator.payments()
