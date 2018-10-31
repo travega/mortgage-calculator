@@ -30,7 +30,7 @@
             "defaultValue": "loan_enquiries"
         }
     },
-    "logo": "https://i.pinimg.com/736x/00/4b/74/004b7483d27417b9c1b709bbf88fcb94.jpg",
+    "logo": "https://www.thedesignlove.com/wp-content/uploads/2016/09/home-logo-15.jpg",
     "addons": [
         "mongolab:sandbox",
         "coralogix:startup",
