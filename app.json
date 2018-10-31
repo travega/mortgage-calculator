@@ -1,0 +1,50 @@
+{
+    "name": "Mortgage Calculator",
+    "description": "Simple Mortgage Calculator app.",
+    "keywords": [
+        "demo",
+        "python",
+        "ci",
+        "calculator",
+        "flask"
+    ],
+    "website": "http://mortgage-calc-eu.herokuapp.com",
+    "repository": "https://github.com/travega/mortgage-calc",
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "standard-1x"
+        },
+        "worker": {
+            "quantity": 1,
+            "size": "standard-1x"
+        }
+    },
+    "env": {
+        "ENV": {
+            "required": true,
+            "defaultValue": "development"
+        },
+        "QUEUE_NAME": {
+            "required": true,
+            "defaultValue": "loan_enquiries"
+        }
+    },
+    "logo": "https://i.pinimg.com/736x/00/4b/74/004b7483d27417b9c1b709bbf88fcb94.jpg",
+    "addons": [
+        "mongolab:sandbox",
+        "coralogix:startup",
+        "rabbitamqp:lemur"
+    ],
+    "buildpacks": [
+        { "url": "heroku/python" }
+    ],
+    "environments": {
+        "test": {
+            "scripts": {
+                "test": "python ./tests/_tests.py"
+            },
+            "postdeploy": "./release/release.sh"
+        }
+    }
+}
