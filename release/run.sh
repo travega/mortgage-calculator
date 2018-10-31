@@ -1,1 +1,1 @@
-cat release/migration.py | heroku pg:sql
+cat ./release/migration.py | heroku pg:sql
