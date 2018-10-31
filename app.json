@@ -44,7 +44,7 @@
             "scripts": {
                 "test": "python ./tests/_tests.py"
             },
-            "postdeploy": "./release/run.sh"
+            "postdeploy": "bash ./release/run.sh"
         }
     }
 }
