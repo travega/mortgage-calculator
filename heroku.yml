@@ -21,8 +21,8 @@ release:
   command:
     - python ./release/migration.py
   image: worker
-test:
-  command: python ./tests/_tests.py
+# test:
+#   command: python ./tests/_tests.py
 run:
   web: gunicorn app:server
   worker: python ./worker/consumer.py
