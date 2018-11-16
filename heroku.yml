@@ -1,0 +1,32 @@
+setup:
+  addons:
+    - plan: heroku-postgresql:hobby-basic
+      as: DATABASE
+    - plan: mongolab:sandbox
+      as: MONGODB
+    - plan: coralogix:startup
+      as: CORALOGIX
+    - plan: cloudamqp:lemur
+      as: CLOUDAMQP
+  config:
+    S3_BUCKET: my-example-bucket
+build:
+  docker:
+    web: Dockerfile
+    worker: worker/Dockerfile
+  config:
+    ENV: production
+    QUEUE_NAME: loan_queries
+release:
+  command:
+    - python ./release/migration.py
+  image: worker
+test:
+  command: python ./tests/_tests.py
+run:
+  web: gunicorn app:server
+  worker: python ./worker/consumer.py
+  # asset-syncer:
+  #   command:
+  #     - python asset-syncer.py
+  #   image: worker

@@ -12,7 +12,7 @@ heroku pg:wait
 heroku addons:create cloudamqp:lemur --app $1
 heroku pg:wait
 
-heroku config:add QUEUE_NAME="load_enquiries"
+heroku config:add QUEUE_NAME="loan_enquiries"
 heroku pg:wait
 
 heroku config -s --app $1 > .env
