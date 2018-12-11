@@ -12,7 +12,7 @@ print ("Connected: {}".format(topic))
 async def echo():
     # async for message in websocket:
     for message in consumer:
-        await print (message)
+        print (message)
         # await websocket.send(json.dumps(message.value))
 
 asyncio.get_event_loop().run_until_complete(echo())
