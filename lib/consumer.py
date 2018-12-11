@@ -66,7 +66,7 @@ def to_pg(payload):
                                                             createddate,
                                                             external_id__c
                                                         ) 
-            values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')
+            values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')
                 """.format(first_name,last_name, name, email, 'n/a', principal, interest, years, "Website", timestamp('%d/%m/%Y %H:%M:%S'), timestamp('%Y%m%d%H%M%S%f'))
         
         cur.execute(sql)
