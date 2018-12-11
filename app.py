@@ -33,15 +33,15 @@ topic = "{}{}".format(os.environ["KAFKA_PREFIX"], os.environ["TOPIC"])
 consumer = kafka_helper.get_kafka_consumer(topic=topic)
 print ("Connected: {}".format(topic))
 
-async def echo(websocket, path):
-    # async for message in websocket:
-    for message in consumer:
-        print (message)
-        await websocket.send(json.dumps(message.value))
+# async def echo(websocket, path):
+#     # async for message in websocket:
+for message in consumer:
+    print (message)
+    #await websocket.send(json.dumps(message.value))
 
-asyncio.get_event_loop().run_until_complete(
-    websockets.serve(echo, 'localhost', 80))
-asyncio.get_event_loop().run_forever()
+# asyncio.get_event_loop().run_until_complete(
+#     websockets.serve(echo, 'localhost', os.environ['PORT']))
+# asyncio.get_event_loop().run_forever()
 
 @server.route("/", methods=["GET"])
 def index():
