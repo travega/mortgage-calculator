@@ -9,6 +9,9 @@ from lib.mortgage_calculator import MortgageCalculator
 import json
 import os
 import pika
+import kafka_helper
+import asyncio
+import websockets
 
 server = Flask(__name__)
 load_dotenv()
@@ -25,6 +28,20 @@ channel.queue_declare(queue=os.environ['QUEUE_NAME'])  # Declare a queue
 
 client = MongoClient(os.environ["MONGODB_URI"])
 db = client.get_default_database()
+
+topic = "{}{}".format(os.environ["KAFKA_PREFIX"], os.environ["TOPIC"])
+consumer = kafka_helper.get_kafka_consumer(topic=topic)
+print ("Connected: {}".format(topic))
+
+async def echo(websocket, path):
+    # async for message in websocket:
+    for message in consumer:
+        print (message)
+        await websocket.send(json.dumps(message.value))
+
+asyncio.get_event_loop().run_until_complete(
+    websockets.serve(echo, '0.0.0.0', os.environ['POST']))
+asyncio.get_event_loop().run_forever()
 
 @server.route("/", methods=["GET"])
 def index():

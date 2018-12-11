@@ -16,6 +16,5 @@ async def echo(websocket, path):
         print (message)
         await websocket.send(json.dumps(message.value))
 
-asyncio.get_event_loop().run_until_complete(
-    websockets.serve(echo, 'https://mortgage-calc-us.herokuapp.com', 80))
+asyncio.get_event_loop().run_until_complete()
 asyncio.get_event_loop().run_forever()
