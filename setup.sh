@@ -15,4 +15,4 @@ heroku pg:wait
 heroku config:add QUEUE_NAME="load_enquiries"
 heroku pg:wait
 
-heroku config -s --app $1 > .env
+heroku config -s --app $1 > .envheroku config:set TOPIC=salesforce.interest_rate__e
