@@ -10,7 +10,7 @@ topic = "{}{}".format(os.environ["KAFKA_PREFIX"], os.environ["TOPIC"])
 consumer = kafka_helper.get_kafka_consumer(topic=topic)
 print ("Connected: {}".format(topic))
 
-async def echo():
+async def echo(self):
     # async for message in websocket:
     for message in consumer:
         await print (message)
