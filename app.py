@@ -9,10 +9,9 @@ from lib.mortgage_calculator import MortgageCalculator
 import json
 import os
 import pika
-import kafka_helper
-# import websockets
 
 server = Flask(__name__)
+load_dotenv()
 
 # Parse CLODUAMQP_URL (fallback to localhost)
 url_str = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
