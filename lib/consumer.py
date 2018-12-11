@@ -53,8 +53,8 @@ def to_pg(payload):
 
         sql = """
             insert into salesforce.Lead(
-                                                            first_name,
-                                                            last_name,
+                                                            firstname,
+                                                            lastname,
                                                             name,
                                                             company,
                                                             principal__c, 

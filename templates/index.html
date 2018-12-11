@@ -16,7 +16,7 @@
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <script>
-        var host = location.origin.replace(/^http/, 'ws')
+        var host = location.origin.replace(/^https/, 'ws')
         var ws = new WebSocket(host);
 
         ws.onmessage = function (event) {
