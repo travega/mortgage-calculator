@@ -50,12 +50,14 @@ def to_pg(payload):
         name = random.choice(usernames)
         first_name = name.split(' ')[0]
         last_name = name.split(' ')[1]
+        email = "{}.{}@example.com".format(first_name, last_name)
 
         sql = """
             insert into salesforce.Lead(
                                                             firstname,
                                                             lastname,
                                                             name,
+                                                            email,
                                                             company,
                                                             principal__c, 
                                                             interest_rate__c, 
@@ -65,7 +67,7 @@ def to_pg(payload):
                                                             external_id__c
                                                         ) 
             values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')
-                """.format(first_name,last_name, name, 'n/a', principal, interest, years, "Website", timestamp('%d/%m/%Y %H:%M:%S'), timestamp('%Y%m%d%H%M%S%f'))
+                """.format(first_name,last_name, name, email, 'n/a', principal, interest, years, "Website", timestamp('%d/%m/%Y %H:%M:%S'), timestamp('%Y%m%d%H%M%S%f'))
         
         cur.execute(sql)
         cur.execute('commit')
