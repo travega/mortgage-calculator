@@ -12,7 +12,7 @@ import os
 import pika
 import kafka_helper
 import asyncio
-import websockets
+# import websockets
 
 server = Flask(__name__)
 server.config['SECRET_KEY'] = 'secret!'
@@ -23,26 +23,16 @@ if __name__ == '__main__':
 
 load_dotenv()
 
-class IncomingEvents:
-    def init(self):
-        topic = "{}{}".format(os.environ["KAFKA_PREFIX"], os.environ["TOPIC"])
-        consumer = kafka_helper.get_kafka_consumer(topic=topic)
-        print ("Connected: {}".format(topic))
+async def consume_events():
+    topic = "{}{}".format(os.environ["KAFKA_PREFIX"], os.environ["TOPIC"])
+    consumer = kafka_helper.get_kafka_consumer(topic=topic)
+    print ("Connected: {}".format(topic))
 
-        # async def echo(websocket, path):
-        #     # async for message in websocket:
-        for message in consumer:
-            print (message)
-            socketio.sent(json.dumps(message.value))
-            #await websocket.send(json.dumps(message.value))
+    for message in consumer:
+        print (message)
+        await flask_socketio.send(json.dumps(message.value))
 
-        # asyncio.get_event_loop().run_until_complete(
-        #     websockets.serve(echo, 'localhost', os.environ['PORT']))
-        # asyncio.get_event_loop().run_forever()
-
-
-events = IncomingEvents()
-events.init()
+asyncio.get_event_loop().run_forever(consume_events())
 
 # Parse CLODUAMQP_URL (fallback to localhost)
 url_str = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
