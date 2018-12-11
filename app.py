@@ -30,7 +30,7 @@ async def consume_events():
 
     for message in consumer:
         print (message)
-        await flask_socketio.send(json.dumps(message.value))
+        await socketio.send(json.dumps(message.value))
 
 asyncio.get_event_loop().run_forever(consume_events())
 
