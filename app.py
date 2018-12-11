@@ -40,7 +40,7 @@ async def echo(websocket, path):
         await websocket.send(json.dumps(message.value))
 
 asyncio.get_event_loop().run_until_complete(
-    websockets.serve(echo, config['Server']['HOST'], os.environ['PORT']))
+    websockets.serve(echo, os.environ['HOST'], os.environ['PORT']))
 asyncio.get_event_loop().run_forever()
 
 @server.route("/", methods=["GET"])
