@@ -6,33 +6,13 @@ from flask import render_template
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from lib.mortgage_calculator import MortgageCalculator
-from flask_socketio import SocketIO
 import json
 import os
 import pika
 import kafka_helper
-import asyncio
 # import websockets
 
 server = Flask(__name__)
-server.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(server)
-
-if __name__ == '__main__':
-    socketio.run(server)
-
-load_dotenv()
-
-async def consume_events():
-    topic = "{}{}".format(os.environ["KAFKA_PREFIX"], os.environ["TOPIC"])
-    consumer = kafka_helper.get_kafka_consumer(topic=topic)
-    print ("Connected: {}".format(topic))
-
-    for message in consumer:
-        print (message)
-        await socketio.send(json.dumps(message.value))
-
-asyncio.get_event_loop().run_forever(consume_events())
 
 # Parse CLODUAMQP_URL (fallback to localhost)
 url_str = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
