@@ -9,11 +9,11 @@
             "quantity": 1,
             "size": "standard-1x"
         },
-        "eventstreams": {
+        "enquiryconsumer": {
             "quantity": 1,
             "size": "standard-1x"
         },
-        "enquiryconsumer": {
+        "eventstreams": {
             "quantity": 0,
             "size": "standard-1x"
         }
