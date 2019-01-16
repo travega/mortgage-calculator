@@ -9,8 +9,12 @@
             "quantity": 1,
             "size": "standard-1x"
         },
-        "worker": {
+        "eventstreams": {
             "quantity": 1,
+            "size": "standard-1x"
+        },
+        "enquiryconsumer": {
+            "quantity": 0,
             "size": "standard-1x"
         }
     },
