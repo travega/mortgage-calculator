@@ -9,7 +9,7 @@ import json
 import pika
 import os
 
-# load_dotenv()
+load_dotenv()
 
 db_parsed = urlparse(os.environ['DATABASE_URL'])
 user = db_parsed.username
@@ -17,7 +17,7 @@ pwd = db_parsed.password
 dbname = db_parsed.path[1:]
 host = db_parsed.hostname
 port = db_parsed.port
-usernames = ['johnb', 'anne_bradshaw', 'georgeH', 'MorrisDashe']
+usernames = ['John McAnn', 'Rachel Sand', 'Ivan Green', 'Morris Dashe']
 client = MongoClient(os.environ["MONGODB_URI"])
 db = client.get_default_database()
 
@@ -47,18 +47,27 @@ def to_pg(payload):
         principal = payload['principal']
         interest = payload['interest']
         years = payload['years']
+        name = random.choice(usernames)
+        first_name = name.split(' ')[0]
+        last_name = name.split(' ')[1]
+        email = "{}.{}@example.com".format(first_name, last_name)
 
         sql = """
-            insert into mortgage_calculator.load_enquiries(
-                                                            username, 
-                                                            principal, 
-                                                            interest, 
-                                                            years,
-                                                            enquiry_source, 
-                                                            timestamp
+            insert into salesforce.Lead(
+                                                            firstname,
+                                                            lastname,
+                                                            name,
+                                                            email,
+                                                            company,
+                                                            principal__c, 
+                                                            interest_rate__c, 
+                                                            term_years__c,
+                                                            leadsource, 
+                                                            createddate,
+                                                            external_id__c
                                                         ) 
-            values ('{}', '{}', '{}', '{}', '{}', '{}')
-                """.format(random.choice(usernames), principal, interest, years, "Website", timestamp())
+            values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')
+                """.format(first_name,last_name, name, email, 'n/a', principal, interest, years, "Website", timestamp('%m/%d/%Y %H:%M:%S'), timestamp('%Y%m%d%H%M%S%f'))
         
         cur.execute(sql)
         cur.execute('commit')
@@ -71,10 +80,10 @@ def to_pg(payload):
 
     return True
 
-def timestamp():
+def timestamp(format):
     t = time.time()
-    ts = datetime.datetime.fromtimestamp(t).strftime('%Y%m%d%H%M%S%f')
-    return ts
+    val = datetime.datetime.fromtimestamp(t).strftime(format)
+    return val
 
 # set up subscription on the queue
 channel.basic_consume(  callback,

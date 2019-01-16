@@ -1,0 +1,56 @@
+{
+  "mappings": [
+    {
+      "object_name": "Lead",
+      "config": {
+        "indexes": {
+          "SystemModstamp": {
+            "unique": false
+          },
+          "External_ID__c": {
+            "unique": true
+          },
+          "Id": {
+            "unique": true
+          }
+        },
+        "sf_max_daily_api_calls": 30000,
+        "access": "read_write",
+        "upsert_field": "External_ID__c",
+        "applied_at": "2019-01-15T18:08:25.740327Z",
+        "sf_polling_seconds": 600,
+        "sf_notify_enabled": true,
+        "fields": {
+          "Term_Years__c": {},
+          "LastName": {},
+          "Name": {},
+          "Interest_Rate__c": {},
+          "IsDeleted": {},
+          "SystemModstamp": {},
+          "External_ID__c": {},
+          "Principal__c": {},
+          "CreatedDate": {},
+          "LeadSource": {},
+          "Id": {},
+          "FirstName": {},
+          "Email": {},
+          "Company": {}
+        }
+      }
+    }
+  ],
+  "connection": {
+    "app_name": "mortgage-calc-us",
+    "organization_id": "00D1i000000D4b8EAC",
+    "exported_at": "2019-01-16T21:12:28.183046+00:00",
+    "features": {
+      "poll_db_no_merge": true,
+      "poll_external_ids": false,
+      "rest_count_only": false
+    },
+    "api_version": "44.0",
+    "name": "",
+    "logplex_log_enabled": false
+  },
+  "version": 1
+}

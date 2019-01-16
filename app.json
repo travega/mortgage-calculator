@@ -1,13 +1,7 @@
 {
     "name": "Mortgage Calculator",
     "description": "Simple Mortgage Calculator app.",
-    "keywords": [
-        "demo",
-        "python",
-        "ci",
-        "calculator",
-        "flask"
-    ],
+    "keywords": ["demo", "python", "ci", "calculator", "flask"],
     "website": "http://mortgage-calc-eu.herokuapp.com",
     "repository": "https://github.com/travega/mortgage-calc",
     "formation": {
@@ -35,11 +29,12 @@
         "heroku-postgresql:hobby-basic",
         "mongolab:sandbox",
         "coralogix:startup",
-        "cloudamqp:lemur"
+        "cloudamqp:lemur",
+        "herokuconnect:demo"
     ],
-    "buildpacks": [
-        { "url": "heroku/python" }
-    ],
+    "buildpacks": [{
+        "url": "heroku/python"
+    }],
     "environments": {
         "test": {
             "scripts": {
