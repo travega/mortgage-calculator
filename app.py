@@ -26,25 +26,27 @@ channel.queue_declare(queue=os.environ['QUEUE_NAME'])  # Declare a queue
 client = MongoClient(os.environ["MONGODB_URI"])
 db = client.get_default_database()
 
+
 @server.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
+
 
 @server.route("/calculate", methods=["POST"])
 def consumer():
     data = request.data
     print ("SERVER RECEIVED: {}".format(data))
-    
-    channel.basic_publish(exchange='', routing_key=os.environ['QUEUE_NAME'], body=data)
+
+    channel.basic_publish(
+        exchange='', routing_key=os.environ['QUEUE_NAME'], body=data)
 
     json_data = json.loads(data)
-    
+
     principal = json_data["principal"]
     interest = json_data["interest"]
     years = json_data["years"]
-    
+
     calculator = MortgageCalculator(principal, interest, years)
     payments = calculator.payments()
 
-    return jsonify({ "payments": payments })
-    
+    return jsonify({"payments": payments})

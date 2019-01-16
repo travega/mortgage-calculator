@@ -15,7 +15,16 @@
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+    <script>
+        var host = location.origin.replace(/^https/, 'ws')
+        var ws = new WebSocket(host);
 
+        ws.onmessage = function (event) {
+            var payload = JSON.parse(event.data);
+
+            $('#interest-rate').html(`(Current Market rate: ${payload.Interest_Rate__c}%)`);
+        };
+    </script>
     <title>Mortgage Calculator</title>
 </head>
 
@@ -47,6 +56,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-percent fa" aria-hidden="true"></i></span>
                                 <input type="text" class="form-control" name="interest" id="interest" valuee="3.25" placeholder="Agreed interest rate" />
+                                <div style='width:100%;height:auto;float:left;'><span id="interest-rate" style="font-weight:900"></span></div>
                             </div>
                         </div>
                     </div>
