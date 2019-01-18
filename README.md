@@ -41,3 +41,7 @@ Then, run the `setup.sh` from the root of the project and pass it 2 parameters:
 ```
 
 **appname** (required): The name of the app you want to use in Heroku
+
+Before deploying the code to Heroku configure the Heroku Connect mappings using the `connect_config.json` file. You can do this by selecting import in the Heroku Connect Settings menu.
+
+Once deployed you will need to give the worker dynos some resource. On your apps Resources tab click the edit icon beside the dyno's name and increase the dyno count to at least 1, and save.
