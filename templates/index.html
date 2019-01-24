@@ -17,13 +17,14 @@
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <script>
         var host = location.origin.replace(/^https/, 'ws')
-        var ws = new WebSocket(host);
+        /* var ws = new WebSocket(host);
 
-        ws.onmessage = function (event) {
+            ws.onmessage = function (event) {
             var payload = JSON.parse(event.data);
 
             $('#interest-rate').html(`(Current Market rate: ${payload.Interest_Rate__c}%)`);
-        };
+        };*/
+            
     </script>
     <title>Finance Calculator</title>
 </head>
@@ -40,8 +41,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><span style="color: #009edf; font-weight: 900; font-size: 1.4em;">£</span></span>
-                                <input type="number" pattern="^\\$?(([1-9](\\d*|\\d{0,2}(,\\d{3})*))|0)(\\.\\d{1,2})?$"
-                                    class="form-control" name="principal" id="principal" placeholder="Amount to borrow" />
+                                <input type="currency" class="form-control" name="principal" id="principal" placeholder="Amount to borrow" />
                             </div>
                         </div>
                     </div>
@@ -79,6 +79,29 @@
 
                 </form>
                 <script>
+                    function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+                        try {
+                            decimalCount = Math.abs(decimalCount);
+                            decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+                            const negativeSign = amount < 0 ? "-" : "";
+
+                            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+                            let j = (i.length > 3) ? i.length % 3 : 0;
+
+                            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(
+                                /(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i)
+                                .toFixed(decimalCount).slice(2) : "");
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    };
+
+                    $("#principal").on("change", function () {
+                        var val = $(this).val();
+                        $(this).val(formatMoney(val));
+                    });
+
                     $("#button").on("click", function () {
                         var principal = $("#principal").val();
                         var interest = $("#interest").val();
