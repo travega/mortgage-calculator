@@ -29,19 +29,23 @@ params = pika.ConnectionParameters(host=url.hostname, virtual_host=url.path[1:],
 connection = pika.BlockingConnection(params)
 channel = connection.channel()
 
+
 def callback(ch, method, properties, body):
     print ("CONSUMER RECEIVED: {}".format(body))
     doc = json.loads(body)
     to_mongo(doc)
     to_pg(doc)
 
+
 def to_mongo(mongo_doc):
-    sensor_data = db['load_enquiries']
+    sensor_data = db[os.environ['QUEUE_NAME']]
     sensor_data.insert_one(mongo_doc)
+
 
 def to_pg(payload):
     try:
-        connection = psycopg2.connect(dbname=dbname, host=host, port=port, user=user, password=pwd)
+        connection = psycopg2.connect(
+            dbname=dbname, host=host, port=port, user=user, password=pwd)
         cur = connection.cursor()
 
         principal = payload['principal']
@@ -67,8 +71,8 @@ def to_pg(payload):
                                                             external_id__c
                                                         ) 
             values ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')
-                """.format(first_name,last_name, name, email, 'n/a', principal, interest, years, "Website", timestamp('%m/%d/%Y %H:%M:%S'), timestamp('%Y%m%d%H%M%S%f'))
-        
+                """.format(first_name, last_name, name, email, 'n/a', principal, interest, years, "Website", timestamp('%m/%d/%Y %H:%M:%S'), timestamp('%Y%m%d%H%M%S%f'))
+
         cur.execute(sql)
         cur.execute('commit')
 
@@ -76,19 +80,21 @@ def to_pg(payload):
 
     except Exception as e:
         print("Error occurred: {}".format(e))
-        return False 
+        return False
 
     return True
+
 
 def timestamp(format):
     t = time.time()
     val = datetime.datetime.fromtimestamp(t).strftime(format)
     return val
 
+
 # set up subscription on the queue
-channel.basic_consume(  callback,
-                        queue=os.environ['QUEUE_NAME'],
-                        no_ack=True)
+channel.basic_consume(callback,
+                      queue=os.environ['QUEUE_NAME'],
+                      no_ack=True)
 
 channel.start_consuming()
 

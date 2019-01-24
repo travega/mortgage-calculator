@@ -18,9 +18,9 @@ query = """create schema if not exists mortgage_calculator;
 
 create sequence if not exists serial;
 
-create table if not exists mortgage_calculator.{queue_name} (
+create table if not exists mortgage_calculator.{0} (
   id integer default nextval('serial') not null
-    constraint {queue_name}_pkey
+    constraint {0}_pkey
     primary key,
     username          varchar(100),
     principal         decimal,
