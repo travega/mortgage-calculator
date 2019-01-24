@@ -42,7 +42,7 @@ def consumer():
 
     json_data = json.loads(data)
 
-    principal = json_data["principal"]
+    principal = json_data["principal"].replace(",", "")
     interest = json_data["interest"]
     years = json_data["years"]
 
