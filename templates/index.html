@@ -41,7 +41,9 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><span style="color: #009edf; font-weight: 900; font-size: 1.4em;">£</span></span>
-                                <input type="currency" class="form-control" name="principal" id="principal" placeholder="Amount to borrow" />
+                                <input type="currency" class="form-control" name="principal_input" id="principal_input"
+                                    placeholder="Amount to borrow" />
+                                <input type="hidden" class="form-control" name="principal" id="principal" />
                             </div>
                         </div>
                     </div>
@@ -97,9 +99,10 @@
                         }
                     };
 
-                    $("#principal").on("change", function () {
+                    $("#principal_input").on("change", function () {
                         var val = $(this).val();
                         $(this).val(formatMoney(val));
+                        $('#principal').val(val);
                     });
 
                     $("#button").on("click", function () {
