@@ -16,14 +16,14 @@
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <script>
-        var host = location.origin.replace(/^https/, 'ws')
-        /* var ws = new WebSocket(host);
+        var host = location.origin.replace(/^https/, 'wss')
+        var ws = new WebSocket(host);
 
-            ws.onmessage = function (event) {
+        ws.onmessage = function (event) {
             var payload = JSON.parse(event.data);
 
             $('#interest-rate').html(`(Current Market rate: ${payload.Interest_Rate__c}%)`);
-        };*/
+        };
             
     </script>
     <title>Finance Calculator</title>
