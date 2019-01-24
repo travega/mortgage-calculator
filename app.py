@@ -17,7 +17,6 @@ load_dotenv()
 client = MongoClient(os.environ["MONGODB_URI"])
 db = client.get_default_database()
 channel = None
-init()
 
 
 def init():
@@ -30,6 +29,9 @@ def init():
     connection = pika.BlockingConnection(params)  # Connect to CloudAMQP
     channel = connection.channel()  # start a channel
     channel.queue_declare(queue=os.environ['QUEUE_NAME'])  # Declare a queue
+
+
+init()
 
 
 @server.route("/", methods=["GET"])
