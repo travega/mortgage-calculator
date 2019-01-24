@@ -9,7 +9,7 @@ import json
 import pika
 import os
 
-load_dotenv()
+# load_dotenv()
 
 db_parsed = urlparse(os.environ['DATABASE_URL'])
 user = db_parsed.username
@@ -38,8 +38,8 @@ def callback(ch, method, properties, body):
 
 
 def to_mongo(mongo_doc):
-    sensor_data = db[os.environ['QUEUE_NAME']]
-    sensor_data.insert_one(mongo_doc)
+    loan_enquiries = db[os.environ['QUEUE_NAME']]
+    loan_enquiries.insert_one(mongo_doc)
 
 
 def to_pg(payload):
