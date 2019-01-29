@@ -28,7 +28,7 @@
       "defaultValue": "loan_enquiries"
     }
   },
-  "logo": "https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.handinhandinternational.org%2Fwp-content%2Fuploads%2F2014%2F08%2Ficon-loans1.jpg&f=1",
+  "logo": "https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fnicholasfinancial.com%2Fwp-content%2Fuploads%2F2017%2F10%2FCons_Loan_Icon_01.png&f=1",
   "addons": [
     "heroku-postgresql:hobby-basic",
     "mongolab:sandbox",
