@@ -14,17 +14,24 @@ server = Flask(__name__)
 load_dotenv()
 
 # Parse CLODUAMQP_URL (fallback to localhost)
-url_str = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
-url = urlparse(url_str)
-params = pika.ConnectionParameters(host=url.hostname, virtual_host=url.path[1:],
-                                   credentials=pika.PlainCredentials(url.username, url.password))
-
-connection = pika.BlockingConnection(params)  # Connect to CloudAMQP
-channel = connection.channel()  # start a channel
-channel.queue_declare(queue=os.environ['QUEUE_NAME'])  # Declare a queue
-
 client = MongoClient(os.environ["MONGODB_URI"])
 db = client.get_default_database()
+channel = None
+
+
+def init():
+    global channel
+    url_str = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
+    url = urlparse(url_str)
+    params = pika.ConnectionParameters(host=url.hostname, virtual_host=url.path[1:],
+                                       credentials=pika.PlainCredentials(url.username, url.password))
+
+    connection = pika.BlockingConnection(params)  # Connect to CloudAMQP
+    channel = connection.channel()  # start a channel
+    channel.queue_declare(queue=os.environ['QUEUE_NAME'])  # Declare a queue
+
+
+init()
 
 
 @server.route("/", methods=["GET"])
@@ -37,12 +44,17 @@ def consumer():
     data = request.data
     print ("SERVER RECEIVED: {}".format(data))
 
-    channel.basic_publish(
-        exchange='', routing_key=os.environ['QUEUE_NAME'], body=data)
+    try:
+        publish(data)
+    except Exception:
+        init()
+        publish(data)
 
     json_data = json.loads(data)
 
-    principal = json_data["principal"]
+    print("PRINCIPAL: {}".format(json_data["principal"]))
+
+    principal = json_data["principal"].replace(",", "")
     interest = json_data["interest"]
     years = json_data["years"]
 
@@ -50,3 +62,8 @@ def consumer():
     payments = calculator.payments()
 
     return jsonify({"payments": payments})
+
+
+def publish(data):
+    channel.basic_publish(
+        exchange='', routing_key=os.environ['QUEUE_NAME'], body=data)

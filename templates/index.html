@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -16,7 +16,7 @@
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <script>
-        var host = location.origin.replace(/^https/, 'ws')
+        var host = location.origin.replace(/^https/, 'wss')
         var ws = new WebSocket(host);
 
         ws.onmessage = function (event) {
@@ -24,20 +24,16 @@
 
             $('#interest-rate').html(`(Current Market rate: ${payload.Interest_Rate__c}%)`);
         };
+            
     </script>
-    <title>Mortgage Calculator</title>
+    <title>Finance Calculator</title>
 </head>
 
 <body>
-    <div class="menu">
-        <div id="logo" style="width: 100%; height: auto; background: #ededef">
-            <img src="static/barclays.jpg" height="50" width="auto" alt="Barclays Logo" />
-        </div>
-    </div>
     <div class="container">
         <div class="row main">
             <div class="main-login main-center">
-                <h2 style="text-align: center; color: white;">Mortgage Calculator</h2>    
+                <h2 style="text-align: center; color: white;">Finance Calculator</h2>
                 <form class="" method="post" action="#">
 
                     <div class="form-group">
@@ -45,7 +41,9 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><span style="color: #009edf; font-weight: 900; font-size: 1.4em;">£</span></span>
-                                <input type="number" pattern="^\\$?(([1-9](\\d*|\\d{0,2}(,\\d{3})*))|0)(\\.\\d{1,2})?$" class="form-control" name="principal" id="principal" placeholder="Amount to borrow" />
+                                <input type="currency" class="form-control" name="principal_input" id="principal_input"
+                                    placeholder="Amount to borrow" />
+                                <input type="hidden" class="form-control" name="principal" id="principal" />
                             </div>
                         </div>
                     </div>
@@ -55,7 +53,8 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-percent fa" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="interest" id="interest" valuee="3.25" placeholder="Agreed interest rate" />
+                                <input type="text" class="form-control" name="interest" id="interest" valuee="3.25"
+                                    placeholder="Agreed interest rate" />
                                 <div style='width:100%;height:auto;float:left;'><span id="interest-rate" style="font-weight:900"></span></div>
                             </div>
                         </div>
@@ -72,15 +71,40 @@
                     </div>
 
                     <div id="results" style="text-align: center;">
-                        
+
                     </div>
 
                     <div class="form-group ">
-                        <a target="_blank" type="button" id="button" class="btn btn-primary btn-lg btn-block login-button"><i class="fa fa-calculator" style="color: #009edf;"></i></a>
+                        <a target="_blank" type="button" id="button" class="btn btn-primary btn-lg btn-block login-button"><i
+                                class="fa fa-calculator" style="color: #009edf;"></i></a>
                     </div>
 
                 </form>
                 <script>
+                    function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+                        try {
+                            decimalCount = Math.abs(decimalCount);
+                            decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+                            const negativeSign = amount < 0 ? "-" : "";
+
+                            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+                            let j = (i.length > 3) ? i.length % 3 : 0;
+
+                            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(
+                                /(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i)
+                                .toFixed(decimalCount).slice(2) : "");
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    };
+
+                    $("#principal_input").on("change", function () {
+                        var val = $(this).val();
+                        $(this).val(formatMoney(val));
+                        $('#principal').val(val);
+                    });
+
                     $("#button").on("click", function () {
                         var principal = $("#principal").val();
                         var interest = $("#interest").val();
@@ -90,11 +114,11 @@
                         console.log(interest);
                         console.log(years);
 
-                        var payload = { 
-                                principal: principal, 
-                                interest: interest, 
-                                years: years 
-                            };
+                        var payload = {
+                            principal: principal,
+                            interest: interest,
+                            years: years
+                        };
 
                         $.ajax({
                             url: "/calculate",
@@ -102,10 +126,11 @@
                             dataType: "json",
                             contentType: "application/json; charset=utf-8",
                             data: JSON.stringify(payload),
-                            success: function(data) {
-                                var output = `For a ${years} year mortgage loan of <b>£${principal}</b></br>
+                            success: function (data) {
+                                var output =
+                                    `For a ${years} year car loan of <b>£${principal}</b></br>
                                 at an annual interest rate of <b>${interest}%</b></br>
-                                you pay <b>£${data.payments.toFixed(2)}</b> monthly</br>
+                                you'll pay <b>£${data.payments.toFixed(2)}</b> monthly</br>
                                 ----------------------------------------</br>
                                 Total amount paid will be:</br> 
                                 <h3 style="text-align: center;">£${(data.payments * years * 12.0).toFixed(2)}<h4>`;
@@ -119,7 +144,7 @@
             </div>
         </div>
     </div>
-    
-</body>
-</html>
 
+</body>
+
+</html>
