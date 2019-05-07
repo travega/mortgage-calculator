@@ -33,8 +33,7 @@
     "heroku-postgresql:hobby-basic",
     "mongolab:sandbox",
     "coralogix:startup",
-    "cloudamqp:lemur",
-    "herokuconnect:demo"
+    "cloudamqp:lemur"
   ],
   "buildpacks": [
     {
