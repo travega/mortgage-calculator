@@ -1,4 +1,4 @@
-FROM python:alpine3.7
+FROM alpine:3.7
 COPY . /app
 WORKDIR /app
 RUN \
