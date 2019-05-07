@@ -1,4 +1,4 @@
-FROM python:alpine2.7
+FROM python:alpine3.7
 COPY . /app
 WORKDIR /app
-RUN pip install --upgrade pip; pip install -r requirements.txt
+RUN echo "DONE!"
