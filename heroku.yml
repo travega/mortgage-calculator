@@ -14,10 +14,10 @@ setup:
     ENV: development
     QUEUE_NAME: loan_enquiries
 release: 
-  command: python ./release/migration.py
+  command: 
+    - python ./release/migration.py
   image: release
 run:
   web: gunicorn app:server
   eventstreams: python ./lib/interest_rate_event_stream.py
   enquiryconsumer: python ./lib/consumer.py
-  
