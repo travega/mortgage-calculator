@@ -21,11 +21,11 @@
   "env": {
     "ENV": {
       "required": true,
-      "defaultValue": "development"
+      "value": "development"
     },
     "QUEUE_NAME": {
       "required": true,
-      "defaultValue": "loan_enquiries"
+      "value": "loan_enquiries"
     }
   },
   "logo": "https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fnicholasfinancial.com%2Fwp-content%2Fuploads%2F2017%2F10%2FCons_Loan_Icon_01.png&f=1",
