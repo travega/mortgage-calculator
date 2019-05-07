@@ -1,0 +1,22 @@
+build:
+  docker:
+    web: Dockerfile
+    eventstreams: Dockerfile
+    enquiryconsumer: Dockerfile
+setup:
+  addons:
+    - plan: heroku-postgresql:hobby-basic
+    - plan: mongolab:sandbox
+    - plan: coralogix:startup
+    - plan: cloudamqp:lemur
+  config:
+    ENV: development
+    QUEUE_NAME: loan_enquiries
+release: 
+  command: 
+    - python ./release/migration.py
+run:
+  web: gunicorn app:server
+  eventstreams: python ./lib/interest_rate_event_stream.py
+  enquiryconsumer: python ./lib/consumer.py
+  
