@@ -1,4 +1,4 @@
-# Awesome Finance Calculator
+# Finance Calculator
 
 This is a very simple finance calculator example with some production readiness built in. It's purposes solely to demonstrate the features of Heroku.
 
