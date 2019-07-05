@@ -19,13 +19,13 @@
     }
   },
   "env": {
-    "ENV": {
-      "required": true,
-      "value": "development"
-    },
     "QUEUE_NAME": {
       "required": true,
       "value": "loan_enquiries"
+    },
+    "TOPIC": {
+      "required": true,
+      "value": "salesforce.interest_rate__e"
     }
   },
   "logo": "https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fnicholasfinancial.com%2Fwp-content%2Fuploads%2F2017%2F10%2FCons_Loan_Icon_01.png&f=1",
@@ -35,11 +35,9 @@
     "coralogix:startup",
     "cloudamqp:lemur"
   ],
-  "buildpacks": [
-    {
-      "url": "heroku/python"
-    }
-  ],
+  "buildpacks": [{
+    "url": "heroku/python"
+  }],
   "environments": {
     "test": {
       "scripts": {
